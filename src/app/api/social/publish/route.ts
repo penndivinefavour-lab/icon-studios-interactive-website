@@ -5,6 +5,18 @@ import { SocialAdapterError } from '@/lib/social/core/errors';
 
 export const runtime = 'nodejs';
 
+function normalizeError(error: unknown): string {
+  if (error instanceof SocialAdapterError || error instanceof LinkedInApiError) {
+    return error.message;
+  }
+
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return 'Unknown adapter initialization failure.';
+}
+
 export async function POST(request: NextRequest) {
   let body: {
     platform?: string;
@@ -102,7 +114,28 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const provider = new LinkedInProvider();
+  let provider: LinkedInProvider;
+
+  try {
+    provider = new LinkedInProvider();
+  } catch (error) {
+    const message = normalizeError(error);
+
+    return Response.json(
+      {
+        success: false,
+        platform: 'linkedin',
+        account: body.account,
+        status: 'failed',
+        error: {
+          code: 'CONFIGURATION_ERROR',
+          message,
+        },
+      },
+      { status: 500 },
+    );
+  }
+
   const result = await provider.publishText({
     account: body.account,
     text: body.text || '',

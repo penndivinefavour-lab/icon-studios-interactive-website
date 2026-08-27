@@ -1,36 +1,112 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ICON Studios — Interactive Website
 
-## Getting Started
+## Overview
 
-First, run the development server:
+ICON Studios builds intelligent digital products, AI systems, automation, and creative technology. This repository contains the studio’s interactive portfolio and digital experience — a cinematic Next.js website built to showcase projects, services, capabilities, and an evolving AI-guided experience.
+
+## Experience
+
+- Cinematic presentation with restrained motion and immersive background system
+- Project exploration across Aurora, Nocturne, and Helix
+- Services, experience timeline, and contact pathways
+- Phase 3 AI-guided chat interface mounted globally as **Ask ICON**
+- Phase 4 voice + avatar scaffolding integrated into the existing AI chat layer
+  - Voice input uses browser-native speech APIs where available
+  - Avatar state reflects listening, thinking, speaking, guiding, success, and error
+  - Falls back gracefully when voice is unavailable
+
+## Technology
+
+- Next.js 16.3.3
+- React 19.2.8
+- TypeScript 5
+- Tailwind CSS 4
+- Motion
+- Vitest
+
+## Routes
+
+- `/`
+- `/about`
+- `/projects`
+- `/projects/[slug]`
+- `/services`
+- `/experience`
+- `/contact`
+
+## Local Development
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open `http://localhost:3001`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment Variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+See `.env.example`. Required variables are named only; no real values are committed.
 
-## Learn More
+- `AI_API_KEY` — optional when using local fallback behavior
+- `AI_API_URL` — optional
+- `AI_MODEL` — optional
 
-To learn more about Next.js, take a look at the following resources:
+Netlify environment variables should be configured in the Netlify dashboard under **Site settings > Environment variables**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Testing
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```bash
+npm test
+```
 
-## Deploy on Vercel
+## Production Build
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+npm run start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Deployment
+
+This project is configured for Netlify deployment through GitHub.
+
+Framework: Next.js  
+Build command: `npm run build`  
+Publish directory: `.next`
+
+## Current Status
+
+Public preview / active development.
+
+- AI chat: functional text experience with local fallback
+- Voice/avatar: present and integrated; browser-native voice behavior varies by platform
+- Phase 5: not started
+
+## Project Structure
+
+```
+src/
+  app/
+    about/
+    contact/
+    experience/
+    projects/
+    services/
+    api/
+      ai/
+    components/
+  components/
+    ai/
+    cards/
+    layout/
+    ui/
+  lib/
+    ai/
+    data/
+    social/
+tests/
+```
+
+## License
+
+License not yet specified.

@@ -2,6 +2,8 @@
 import { SocialAdapterError } from '@/lib/social/core/errors';
 import type { ErrorCode } from '@/lib/social/core/types';
 
+export type { ErrorCode };
+
 const ENV_CLIENT_ID = 'LINKEDIN_CLIENT_ID';
 const ENV_CLIENT_SECRET = 'LINKEDIN_CLIENT_SECRET';
 const ENV_ACCESS_TOKEN = 'LINKEDIN_ACCESS_TOKEN';

@@ -2,6 +2,8 @@
 import { SocialAdapterError } from '@/lib/social/core/errors';
 import type { ErrorCode, LinkedInConfig } from './auth';
 
+export type { ErrorCode };
+
 export class LinkedInApiError extends SocialAdapterError {
   constructor(
     code: ErrorCode,
