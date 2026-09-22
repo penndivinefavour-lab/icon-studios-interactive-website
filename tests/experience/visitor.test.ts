@@ -23,7 +23,7 @@ if (typeof window === 'undefined') {
   });
 }
 
-import { getAnalyticsEvents, clearAnalyticsEvents, trackEvent } from '@/lib/analytics';
+import { getAnalyticsEvents, trackEvent } from '@/lib/analytics';
 
 describe('visitor experience stats', () => {
   beforeEach(() => {

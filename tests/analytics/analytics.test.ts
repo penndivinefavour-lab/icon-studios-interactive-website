@@ -1,16 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 
-// Ensure window is defined BEFORE importing the module
-if (typeof window === 'undefined') {
-  Object.defineProperty(globalThis, 'window', {
-    value: {
-      location: { pathname: '/' },
-    },
-    writable: true,
-  });
-}
-
-// Mock localStorage
 const localStorageMock = (() => {
   let store: Record<string, string> = {};
   return {
@@ -26,8 +15,14 @@ Object.defineProperty(globalThis, 'localStorage', {
   writable: true,
 });
 
-// Import after mocks are in place
-import { trackEvent, getAnalyticsEvents, clearAnalyticsEvents, trackPageView, trackProjectView, trackAIQuery, trackExperiencePreference } from '@/lib/analytics';
+if (typeof window === 'undefined') {
+  Object.defineProperty(globalThis, 'window', {
+    value: { location: { pathname: '/' } },
+    writable: true,
+  });
+}
+
+import { getAnalyticsEvents, clearAnalyticsEvents, trackEvent, trackPageView, trackProjectView, trackAIQuery, trackExperiencePreference } from '@/lib/analytics';
 
 describe('analytics', () => {
   beforeEach(() => {

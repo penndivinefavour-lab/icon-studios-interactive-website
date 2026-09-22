@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { motion } from 'motion/react';
 import { useExperience } from '@/components/experience/ExperienceContext';
 
@@ -36,18 +37,18 @@ export const HeroShell = ({ tagline, description }: HeroShellProps) => {
         <div className="flex flex-col gap-6">
           <p className="text-sm text-text-secondary md:text-base">{description}</p>
           <div className="flex flex-wrap gap-3">
-            <a
+            <Link
               href="/projects"
               className="inline-flex h-10 items-center justify-center rounded-full bg-accent px-4 text-sm font-medium text-accent-foreground transition-colors hover:bg-text-secondary focus-visible:outline-none focus-visible:shadow-focus"
             >
               Selected work
-            </a>
-            <a
+            </Link>
+            <Link
               href="/services"
               className="inline-flex h-10 items-center justify-center rounded-full bg-surface border border-border px-4 text-sm font-medium text-text-primary transition-colors hover:bg-background focus-visible:outline-none focus-visible:shadow-focus"
             >
               Services
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -68,24 +69,22 @@ export const HeroShell = ({ tagline, description }: HeroShellProps) => {
       <motion.div className="flex flex-col gap-6" variants={item}>
         <p className="text-sm text-text-secondary md:text-base">{description}</p>
         <motion.div className="flex flex-wrap gap-3" initial="hidden" animate="show" variants={container}>
-          <motion.a
-            href="/projects"
-            className="inline-flex h-10 items-center justify-center rounded-full bg-accent px-4 text-sm font-medium text-accent-foreground transition-colors hover:bg-text-secondary focus-visible:outline-none focus-visible:shadow-focus"
-            variants={item}
-            whileHover={{ y: -1 }}
-            whileTap={{ y: 0 }}
-          >
-            Selected work
-          </motion.a>
-          <motion.a
-            href="/services"
-            className="inline-flex h-10 items-center justify-center rounded-full bg-surface border border-border px-4 text-sm font-medium text-text-primary transition-colors hover:bg-background focus-visible:outline-none focus-visible:shadow-focus"
-            variants={item}
-            whileHover={{ y: -1 }}
-            whileTap={{ y: 0 }}
-          >
-            Services
-          </motion.a>
+          <motion.div variants={item} whileHover={{ y: -1 }} whileTap={{ y: 0 }}>
+            <Link
+              href="/projects"
+              className="inline-flex h-10 items-center justify-center rounded-full bg-accent px-4 text-sm font-medium text-accent-foreground transition-colors hover:bg-text-secondary focus-visible:outline-none focus-visible:shadow-focus"
+            >
+              Selected work
+            </Link>
+          </motion.div>
+          <motion.div variants={item} whileHover={{ y: -1 }} whileTap={{ y: 0 }}>
+            <Link
+              href="/services"
+              className="inline-flex h-10 items-center justify-center rounded-full bg-surface border border-border px-4 text-sm font-medium text-text-primary transition-colors hover:bg-background focus-visible:outline-none focus-visible:shadow-focus"
+            >
+              Services
+            </Link>
+          </motion.div>
         </motion.div>
       </motion.div>
     </motion.div>
