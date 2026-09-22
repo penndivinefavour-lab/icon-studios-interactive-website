@@ -2,12 +2,19 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
+import { useExperience } from '@/components/experience/ExperienceContext';
 
 type PageTransitionProps = {
   children: React.ReactNode;
 };
 
 export const PageTransition = ({ children }: PageTransitionProps) => {
+  const { preferences } = useExperience();
+  
+  if (!preferences.motionEnabled) {
+    return <>{children}</>;
+  }
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}

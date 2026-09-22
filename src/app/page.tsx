@@ -9,14 +9,16 @@ import { CapabilitiesSection } from '@/app/components/CapabilitiesSection';
 import { ExperiencePhilosophySection } from '@/app/components/ExperiencePhilosophySection';
 import { HeroShell } from '@/app/components/HeroShell';
 import { AmbientLight } from '@/components/ui/AmbientLight';
+import { useExperience } from '@/components/experience/ExperienceContext';
 import { siteSettings } from '@/lib/data/content';
 
 export default function HomePage() {
+  const { preferences } = useExperience();
   return (
     <div>
       <Section className="!pt-24 md:!pt-28">
         <div className="relative">
-          <AmbientLight />
+          <AmbientLight enabled={preferences.ambientEnabled} />
           <HeroShell tagline={siteSettings.tagline} description={siteSettings.description} />
         </div>
       </Section>

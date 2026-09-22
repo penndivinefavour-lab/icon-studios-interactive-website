@@ -1,4 +1,3 @@
-import type { NextRequest } from 'next/server';
 import { LinkedInProvider } from '@/lib/social/providers/linkedin/publisher';
 
 export const runtime = 'nodejs';

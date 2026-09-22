@@ -54,7 +54,7 @@ export class LinkedInClient {
         // keep parsedBody as raw text
       }
 
-      const code = classifyLinkedInError(response.status, parsedBody);
+      const code = classifyLinkedInError(response.status);
 
       const message =
         typeof parsedBody === 'object' &&
@@ -91,10 +91,7 @@ export class LinkedInClient {
   }
 }
 
-function classifyLinkedInError(
-  status: number,
-  _body: unknown,
-): ErrorCode {
+function classifyLinkedInError(status: number): ErrorCode {
   if (status === 401) {
     return 'AUTHENTICATION_ERROR';
   }

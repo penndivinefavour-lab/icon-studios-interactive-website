@@ -5,15 +5,19 @@ import { motion } from 'motion/react';
 
 type AmbientLightProps = {
   className?: string;
+  enabled?: boolean;
 };
 
-export const AmbientLight = ({ className = '' }: AmbientLightProps) => {
+export const AmbientLight = ({ className = '', enabled = true }: AmbientLightProps) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   const handlePointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    if (!enabled) return;
     const bounds = event.currentTarget.getBoundingClientRect();
     setPosition({ x: event.clientX - bounds.left, y: event.clientY - bounds.top });
   };
+
+  if (!enabled) return null;
 
   return (
     <div

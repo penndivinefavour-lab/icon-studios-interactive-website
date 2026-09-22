@@ -6,6 +6,8 @@ import { Navbar } from '@/components/layout/Navbar';
 import { Footer } from '@/components/layout/Footer';
 import { ImmersiveBackground } from '@/components/ui/ImmersiveBackground';
 import { AiChat } from '@/components/ai/AiChat';
+import { ExperienceProvider } from '@/components/experience/ExperienceContext';
+import { ExperienceControlCenter } from '@/components/experience/ExperienceControlCenter';
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -25,11 +27,14 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en" className={`${poppins.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-background text-text-primary">
-        <ImmersiveBackground />
-        <Navbar />
-        <main className="flex-1 relative z-10">{children}</main>
-        <Footer />
-        <AiChat />
+        <ExperienceProvider>
+          <ImmersiveBackground />
+          <Navbar />
+          <main className="flex-1 relative z-10">{children}</main>
+          <Footer />
+          <AiChat />
+          <ExperienceControlCenter />
+        </ExperienceProvider>
       </body>
     </html>
   );

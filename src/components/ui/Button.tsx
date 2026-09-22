@@ -5,6 +5,8 @@ type ButtonProps = {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   href?: string;
+  target?: string;
+  rel?: string;
   children: React.ReactNode;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 
@@ -24,11 +26,11 @@ const sizeClasses: Record<string, string> = {
   lg: 'h-12 px-5 text-base',
 };
 
-export const Button = ({ variant = 'primary', size = 'md', className = '', href, children, ...props }: ButtonProps) => {
+export const Button = ({ variant = 'primary', size = 'md', className = '', href, target, rel, children, ...props }: ButtonProps) => {
   const classes = `${baseClasses} ${variantClasses[variant]} ${sizeClasses[size]} ${className}`;
   if (href) {
     return (
-      <a href={href} className={classes}>
+      <a href={href} className={classes} target={target} rel={rel}>
         {children}
       </a>
     );

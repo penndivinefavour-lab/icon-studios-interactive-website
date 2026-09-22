@@ -50,8 +50,16 @@ export default async function ProjectDetailPage({ params }: Props) {
           ))}
         </div>
         <div className="flex flex-wrap gap-3">
-          <Button href={project.demoUrl || '#'}>Open demo</Button>
-          <Button href={project.repositoryUrl || '#'} variant="secondary">Repository</Button>
+          {project.demoUrl && (
+            <Button href={project.demoUrl} target="_blank" rel="noreferrer">
+              Open demo
+            </Button>
+          )}
+          {project.repositoryUrl && (
+            <Button href={project.repositoryUrl} variant="secondary" target="_blank" rel="noreferrer">
+              Repository
+            </Button>
+          )}
           <Button href="/projects" variant="ghost">Back to projects</Button>
         </div>
       </div>

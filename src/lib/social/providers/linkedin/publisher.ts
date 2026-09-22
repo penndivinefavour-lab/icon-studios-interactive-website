@@ -1,6 +1,6 @@
 // src/lib/social/providers/linkedin/publisher.ts
 import type { SocialProvider, PublishResult } from '@/lib/social/core/types';
-import { SocialAdapterError, isSocialAdapterError } from '@/lib/social/core/errors';
+import { isSocialAdapterError } from '@/lib/social/core/errors';
 import { loadLinkedInConfig, getDefaultAccountAlias } from './auth';
 import { LinkedInClient, LinkedInApiError } from './client';
 

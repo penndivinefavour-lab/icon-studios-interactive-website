@@ -1,5 +1,4 @@
 // src/lib/social/approval.ts
-import type { ApprovalState } from './core/types';
 import { publishLinkedInText } from './';
 
 export type HermesSocialPublishState =

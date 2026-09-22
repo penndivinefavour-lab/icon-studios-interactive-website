@@ -1,4 +1,3 @@
-import type { NextRequest } from 'next/server';
 import { LinkedInProvider } from '@/lib/social/providers/linkedin/publisher';
 import { LinkedInApiError } from '@/lib/social/providers/linkedin/client';
 import { SocialAdapterError } from '@/lib/social/core/errors';

@@ -10,6 +10,7 @@ import type { AvatarState } from '@/lib/ai/avatar-state';
 import { speechToTextProvider } from '@/lib/ai/speech-to-text';
 import { textToSpeechProvider } from '@/lib/ai/text-to-speech';
 import { Avatar } from '@/components/ai/Avatar';
+import { useExperience } from '@/components/experience/ExperienceContext';
 
 type AiChatProps = {
   initialContext?: {
@@ -41,19 +42,25 @@ function getActionLabel(action: AiAction): string {
   return action.type;
 }
 
-const hasVoiceSupport = () => {
-  if (typeof window === 'undefined') return false;
+function getVoiceCapabilities(): { speechToText: boolean; textToSpeech: boolean } {
+  if (typeof window === 'undefined') return { speechToText: false, textToSpeech: false };
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const w = window as any;
-  return (
-    typeof w.SpeechRecognition !== 'undefined' ||
-    typeof w.webkitSpeechRecognition !== 'undefined'
-  ) && typeof window.speechSynthesis !== 'undefined';
+  return {
+    speechToText: typeof w.SpeechRecognition !== 'undefined' || typeof w.webkitSpeechRecognition !== 'undefined',
+    textToSpeech: typeof window.speechSynthesis !== 'undefined',
+  };
+}
+
+const hasVoiceSupport = () => {
+  const caps = getVoiceCapabilities();
+  return caps.speechToText || caps.textToSpeech;
 };
 
 export const AiChat = ({ initialContext }: AiChatProps) => {
   const inputId = useId();
   const router = useRouter();
+  const { preferences } = useExperience();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ConversationMessage[]>([welcomeMessage]);
   const [input, setInput] = useState('');
@@ -61,6 +68,7 @@ export const AiChat = ({ initialContext }: AiChatProps) => {
   const [error, setError] = useState<string | null>(null);
   const [avatarState, setAvatarState] = useState<AvatarState>('idle');
   const [voiceReady] = useState(() => hasVoiceSupport());
+  const [voiceCapabilities] = useState(() => getVoiceCapabilities());
   const listRef = useRef<HTMLDivElement>(null);
   const conversationService = createConversationService();
 
@@ -77,7 +85,11 @@ export const AiChat = ({ initialContext }: AiChatProps) => {
         setAvatarState('thinking');
       }
     };
+    const handleError = () => {
+      setAvatarState('error');
+    };
     speechToTextProvider.onResult(handleResult);
+    speechToTextProvider.onError(handleError);
     return () => {
       speechToTextProvider.stopListening();
     };
@@ -97,11 +109,11 @@ export const AiChat = ({ initialContext }: AiChatProps) => {
   }, [avatarState, voiceReady]);
 
   const speak = useCallback((text: string) => {
-    if (!voiceReady) return;
+    if (!voiceReady || !voiceCapabilities.textToSpeech) return;
     textToSpeechProvider.stop();
     setAvatarState('speaking');
     textToSpeechProvider.speak(text);
-  }, [voiceReady]);
+  }, [voiceReady, voiceCapabilities.textToSpeech]);
 
   const handleSend = async (text?: string) => {
     const message = (text ?? input).trim();
@@ -147,7 +159,6 @@ export const AiChat = ({ initialContext }: AiChatProps) => {
     } catch (err) {
       const messageText = err instanceof Error ? err.message : 'Unknown error';
       setError(messageText);
-      setAvatarState('error');
       const fallback = conversationService.buildAiResponse(messageText, initialContext);
       const assistantMessage: ConversationMessage = {
         id: generateId(),
@@ -157,6 +168,7 @@ export const AiChat = ({ initialContext }: AiChatProps) => {
         timestamp: Date.now(),
       };
       setMessages((prev) => [...prev, assistantMessage]);
+      setAvatarState('idle');
     } finally {
       setLoading(false);
     }
@@ -246,21 +258,24 @@ export const AiChat = ({ initialContext }: AiChatProps) => {
                 <p className="text-xs text-text-muted">Powered by ICON Studios knowledge</p>
               </div>
               <div className="flex items-center gap-2">
-                {voiceReady ? (
+                {voiceReady && preferences.voiceEnabled ? (
                   <>
-                    <button
-                      type="button"
-                      aria-label={speechToTextProvider.isListening ? 'Stop listening' : 'Start listening'}
-                      className={`h-8 w-8 rounded-full border text-xs ${
-                        speechToTextProvider.isListening
-                          ? 'border-accent bg-accent text-accent-foreground'
-                          : 'border-border text-text-secondary hover:bg-background'
-                      }`}
-                      onClick={handleVoiceToggle}
-                    >
-                      {speechToTextProvider.isListening ? '■' : '🎤'}
-                    </button>
-                    {avatarState === 'speaking' && (
+                    {voiceCapabilities.speechToText && (
+                      <button
+                        type="button"
+                        aria-label={speechToTextProvider.isListening ? 'Stop listening' : 'Start listening'}
+                        aria-pressed={speechToTextProvider.isListening}
+                        className={`h-8 w-8 rounded-full border text-xs ${
+                          speechToTextProvider.isListening
+                            ? 'border-accent bg-accent text-accent-foreground'
+                            : 'border-border text-text-secondary hover:bg-background'
+                        }`}
+                        onClick={handleVoiceToggle}
+                      >
+                        {speechToTextProvider.isListening ? '■' : '🎤'}
+                      </button>
+                    )}
+                    {voiceCapabilities.textToSpeech && avatarState === 'speaking' && (
                       <button
                         type="button"
                         aria-label="Stop speaking"
@@ -336,9 +351,11 @@ export const AiChat = ({ initialContext }: AiChatProps) => {
         ) : null}
       </AnimatePresence>
       {!open ? (
-        <Button onClick={() => setOpen(true)} className="shadow-md">
-          Ask ICON
-        </Button>
+        preferences.aiEnabled ? (
+          <Button onClick={() => setOpen(true)} className="shadow-md">
+            Ask ICON
+          </Button>
+        ) : null
       ) : null}
     </div>
   );
