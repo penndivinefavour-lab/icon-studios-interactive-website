@@ -15,12 +15,11 @@ const footerSections = [
     ],
   },
   {
-    title: 'Contact',
+    title: 'Connect',
     links: [
-      { label: 'Contact', href: '/contact' },
-      { label: 'hello@iconstudios.example', href: 'mailto:hello@iconstudios.example' },
-      { label: 'X', href: 'https://x.com/iconstudios' },
-      { label: 'GitHub', href: 'https://github.com/iconstudios' },
+      { label: 'WhatsApp', href: 'https://wa.me/237672536260' },
+      { label: 'Email', href: 'mailto:iconstudiosyde@gmail.com' },
+      { label: 'Contact Page', href: '/contact' },
     ],
   },
 ];

@@ -4,6 +4,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback, useEffect, useMemo } from 'react';
+import { trackExperiencePreference } from '@/lib/analytics';
 
 export type VisualMode = 'immersive' | 'minimal';
 
@@ -69,18 +70,22 @@ export function ExperienceProvider({ children }: { children: React.ReactNode }) 
 
   const setMotionEnabled = useCallback((enabled: boolean) => {
     setPreferences((prev) => ({ ...prev, motionEnabled: enabled }));
+    trackExperiencePreference('motion', enabled);
   }, []);
 
   const setAmbientEnabled = useCallback((enabled: boolean) => {
     setPreferences((prev) => ({ ...prev, ambientEnabled: enabled }));
+    trackExperiencePreference('ambient', enabled);
   }, []);
 
   const setAiEnabled = useCallback((enabled: boolean) => {
     setPreferences((prev) => ({ ...prev, aiEnabled: enabled }));
+    trackExperiencePreference('ai', enabled);
   }, []);
 
   const setVoiceEnabled = useCallback((enabled: boolean) => {
     setPreferences((prev) => ({ ...prev, voiceEnabled: enabled }));
+    trackExperiencePreference('voice', enabled);
   }, []);
 
   const resetPreferences = useCallback(() => {

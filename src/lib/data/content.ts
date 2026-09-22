@@ -126,9 +126,11 @@ export const siteSettings: {
   tagline: string;
   description: string;
   contactEmail: string;
+  contactPhone: string;
 } = {
   studioName: 'ICON Studios',
   tagline: 'Intelligent systems, creative technology, and premium digital products.',
   description: 'ICON Studios builds intelligent digital products, AI systems, automation, and creative technology.',
-  contactEmail: 'hello@iconstudios.example',
+  contactEmail: 'iconstudiosyde@gmail.com',
+  contactPhone: '+237 672 536 260',
 };

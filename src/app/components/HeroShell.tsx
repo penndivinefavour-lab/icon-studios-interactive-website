@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion } from 'motion/react';
+import { useExperience } from '@/components/experience/ExperienceContext';
 
 type HeroShellProps = {
   tagline: string;
@@ -23,6 +24,36 @@ const item = {
 };
 
 export const HeroShell = ({ tagline, description }: HeroShellProps) => {
+  const { preferences } = useExperience();
+
+  if (!preferences.motionEnabled) {
+    return (
+      <div className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16">
+        <div className="relative">
+          <div className="absolute -left-3 top-0 hidden h-12 w-px bg-gradient-to-b from-border to-transparent md:block" aria-hidden="true" />
+          <h1 className="text-4xl font-semibold leading-[1.05] tracking-tight text-text-primary md:text-5xl">{tagline}</h1>
+        </div>
+        <div className="flex flex-col gap-6">
+          <p className="text-sm text-text-secondary md:text-base">{description}</p>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href="/projects"
+              className="inline-flex h-10 items-center justify-center rounded-full bg-accent px-4 text-sm font-medium text-accent-foreground transition-colors hover:bg-text-secondary focus-visible:outline-none focus-visible:shadow-focus"
+            >
+              Selected work
+            </a>
+            <a
+              href="/services"
+              className="inline-flex h-10 items-center justify-center rounded-full bg-surface border border-border px-4 text-sm font-medium text-text-primary transition-colors hover:bg-background focus-visible:outline-none focus-visible:shadow-focus"
+            >
+              Services
+            </a>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <motion.div
       className="grid grid-cols-1 gap-10 md:grid-cols-2 md:gap-16"
