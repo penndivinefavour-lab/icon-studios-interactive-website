@@ -33,6 +33,31 @@ function ToggleSwitch({ enabled, onToggle, label, description }: { enabled: bool
   );
 }
 
+function VisualModeSelect({ enabled }: { enabled: boolean }) {
+  if (!enabled) return null;
+  return (
+    <div className="pt-2 space-y-2">
+      <p className="text-xs font-medium text-text-muted">Visual Mode</p>
+      <div className="flex gap-2">
+        <button
+          type="button"
+          disabled
+          className="flex-1 rounded-lg border border-border bg-surface px-3 py-2 text-xs text-text-secondary opacity-50 cursor-not-allowed"
+        >
+          Immersive
+        </button>
+        <button
+          type="button"
+          disabled
+          className="flex-1 rounded-lg border border-border bg-surface px-3 py-2 text-xs text-text-muted opacity-50 cursor-not-allowed"
+        >
+          Minimal
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export function ExperienceControlCenter() {
   const { preferences, setMotionEnabled, setAmbientEnabled, setAiEnabled, setVoiceEnabled, resetPreferences } = useExperience();
   const [isOpen, setIsOpen] = useState(false);
@@ -85,7 +110,7 @@ export function ExperienceControlCenter() {
                 />
                 <ToggleSwitch
                   label="Ambient Effects"
-                  description="Cursor-tracking glow and gradient orbs."
+                  description="Cursor-tracking glow, particles, and gradient orbs."
                   enabled={preferences.ambientEnabled}
                   onToggle={setAmbientEnabled}
                 />

@@ -25,8 +25,12 @@ export default async function ProjectDetailPage({ params }: Props) {
       text: project.technologies.map((tech) => `• ${tech}`).join('\n'),
     },
     {
-      label: 'Next action',
-      text: 'Review the live demonstration, repository, or contact ICON Studios to discuss collaboration.',
+      label: 'Status',
+      text: project.status === 'live'
+        ? 'This project is actively in use. Contact ICON Studios to see a demonstration or discuss similar work.'
+        : project.status === 'in-progress'
+          ? 'This project is currently in development. Reach out to ICON Studios to learn more or collaborate.'
+          : 'This project is in the prototype phase. Contact ICON Studios to explore the concept further.',
     },
   ];
 
@@ -50,16 +54,19 @@ export default async function ProjectDetailPage({ params }: Props) {
           ))}
         </div>
         <div className="flex flex-wrap gap-3">
-          {project.demoUrl && (
+          {project.demoUrl ? (
             <Button href={project.demoUrl} target="_blank" rel="noreferrer">
               Open demo
             </Button>
-          )}
-          {project.repositoryUrl && (
+          ) : null}
+          {project.repositoryUrl ? (
             <Button href={project.repositoryUrl} variant="secondary" target="_blank" rel="noreferrer">
               Repository
             </Button>
-          )}
+          ) : null}
+          <Button href="/contact" variant={project.demoUrl || project.repositoryUrl ? "ghost" : "primary"}>
+            Discuss this project
+          </Button>
           <Button href="/projects" variant="ghost">Back to projects</Button>
         </div>
       </div>
